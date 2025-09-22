@@ -17,7 +17,6 @@
       background:#fff5f5;
     }
 
-    /* floating red hearts background */
     .floating-bg span{
       position:absolute;
       color:red;
@@ -69,13 +68,12 @@
   </style>
 </head>
 <body>
-  <!-- floating background hearts -->
   <div class="floating-bg" id="floatingBg"></div>
 
   <main class="card">
     <section class="left">
       <h1 class="headline">
-        Wishing my love <span class="shine">Get Well Soon ❤️</span>
+        Oye Patty<span class="shine">Get Well Soon ❤️</span>
       </h1>
       <p class="sub">Baby, I’m sending you endless hugs, warm cuddles, and love to chase that cold away ❤️</p>
 
@@ -98,12 +96,9 @@
       <button class="tap-btn" id="tapBtn">💖 Tap Here 💖</button>
     </aside>
   </main>
-
   <script>
-    // Generate many floating hearts dynamically
     const floatingBg = document.getElementById('floatingBg');
-    const heartCount = 40; // number of hearts at a time
-
+    const heartCount = 40;
     for(let i=0;i<heartCount;i++){
       const span = document.createElement('span');
       span.innerText = "❤️";
@@ -113,8 +108,6 @@
       span.style.animationDelay = (Math.random()*5) + "s";
       floatingBg.appendChild(span);
     }
-
-    // Heart click action
     const heartIcon = document.getElementById('heartIcon');
     const loveText = document.getElementById('loveText');
     const tapBtn = document.getElementById('tapBtn');
@@ -125,4 +118,5 @@
     });
   </script>
 </body>
+
 </html>
