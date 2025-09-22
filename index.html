@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Get Well Soon — Animated Card</title>
+  <style>
+    :root{
+      --card-bg: rgba(255,255,255,0.9);
+      --accent: #ff4d6d;
+      --muted: #6b6b7a;
+    }
+
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, sans-serif;overflow:hidden;}
+    body{
+      display:flex;align-items:center;justify-content:center;padding:32px;
+      background:#fff5f5;
+    }
+
+    /* floating red hearts background */
+    .floating-bg span{
+      position:absolute;
+      color:red;
+      font-size:20px;
+      animation: float linear infinite;
+      opacity:0.9;
+      user-select:none;
+      pointer-events:none;
+    }
+    @keyframes float {
+      from { transform: translateY(110vh) rotate(0deg); opacity:0; }
+      20% { opacity:1; }
+      to { transform: translateY(-10vh) rotate(360deg); opacity:0; }
+    }
+
+    .card{position:relative;z-index:10;max-width:920px;width:100%;background:var(--card-bg);border-radius:20px;padding:36px;box-shadow:0 10px 30px rgba(0,0,0,0.12);
+      display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;backdrop-filter:blur(6px);
+    }
+
+    .left{padding:12px}
+    .headline{font-size:44px;line-height:1.1;margin:0 0 8px;font-weight:800;color:#3a3a48;}
+    .headline .shine{display:inline-block;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg,#fff0f5,#fff);animation:pop 1.8s ease-in-out infinite;}
+    @keyframes pop{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.08)}100%{transform:translateY(0) scale(1)}}
+
+    .sub{margin:0;color:var(--muted);font-size:16px}
+
+    .right{display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    .pill{width:320px;height:320px;border-radius:24px;background:linear-gradient(135deg,#fff,#fff0f0);box-shadow:0 12px 30px rgba(0,0,0,0.06);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer;}
+
+    .heart{width:110px;height:110px;animation:pulse 1.6s ease-in-out infinite;}
+    .heart svg{width:100%;height:100%}
+    @keyframes pulse{0%{transform:scale(0.95)}50%{transform:scale(1.1)}100%{transform:scale(0.95)}}
+
+    .love-text{display:none;font-size:28px;font-weight:700;color:#ff4d6d;text-align:center;animation:fadeIn 1s ease forwards;}
+    @keyframes fadeIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+
+    .tap-btn{margin-top:16px;padding:10px 18px;border:none;border-radius:20px;background:#ff4d6d;color:white;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.2);transition:0.2s;}
+    .tap-btn:hover{background:#e63950;transform:scale(1.05);}
+
+    .note{margin-top:18px;background:#fff0f5;padding:16px;border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.8);font-size:15px;color:#4a4a57}
+
+    .kisses{font-size:22px;line-height:1.4;margin-top:12px;}
+
+    .typewriter{display:inline-block;overflow:hidden;white-space:nowrap;letter-spacing:0.02em;border-right:3px solid rgba(58,58,72,0.7);animation:typing 3.2s steps(28, end) 1, blink 0.8s step-end infinite alternate;}
+    @keyframes typing{from{width:0}to{width:30ch}}
+    @keyframes blink{50%{border-color:transparent}100%{border-color:rgba(58,58,72,0.7)}}
+
+    @media (max-width:880px){.card{grid-template-columns:1fr}.right{order:-1}.headline{font-size:32px}}
+  </style>
+</head>
+<body>
+  <!-- floating background hearts -->
+  <div class="floating-bg" id="floatingBg"></div>
+
+  <main class="card">
+    <section class="left">
+      <h1 class="headline">
+        Wishing my love <span class="shine">Get Well Soon ❤️</span>
+      </h1>
+      <p class="sub">Baby, I’m sending you endless hugs, warm cuddles, and love to chase that cold away ❤️</p>
+
+      <div class="note">
+        <div style="font-weight:700;margin-bottom:6px;">My sweet message for you:</div>
+        <div class="typewriter">Have food 🍲, take medicine 💊, and sleep well 😴</div>
+        <div class="kisses">❤️❤️❤️❤️❤️</div>
+      </div>
+    </section>
+
+    <aside class="right">
+      <div class="pill" id="heartCard">
+        <div class="heart" id="heartIcon">
+          <svg viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 20s-7.5-4.9-9.6-7.1C-0.4 8.9 4 3 8.6 5.1 10.9 6.4 12 9 12 9s1.1-2.6 3.4-3.9C20 3 24.4 8.9 21.6 12.9 19.5 15.1 12 20 12 20z"/>
+          </svg>
+        </div>
+        <div class="love-text" id="loveText">I Love You❤️😘</div>
+      </div>
+      <button class="tap-btn" id="tapBtn">💖 Tap Here 💖</button>
+    </aside>
+  </main>
+
+  <script>
+    // Generate many floating hearts dynamically
+    const floatingBg = document.getElementById('floatingBg');
+    const heartCount = 40; // number of hearts at a time
+
+    for(let i=0;i<heartCount;i++){
+      const span = document.createElement('span');
+      span.innerText = "❤️";
+      span.style.left = Math.random()*100 + "%";
+      span.style.fontSize = (18 + Math.random()*20) + "px";
+      span.style.animationDuration = (6 + Math.random()*10) + "s";
+      span.style.animationDelay = (Math.random()*5) + "s";
+      floatingBg.appendChild(span);
+    }
+
+    // Heart click action
+    const heartIcon = document.getElementById('heartIcon');
+    const loveText = document.getElementById('loveText');
+    const tapBtn = document.getElementById('tapBtn');
+
+    tapBtn.addEventListener('click', () => {
+      heartIcon.style.display = 'none';
+      loveText.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
